@@ -10,7 +10,8 @@ import { CgProfile } from "react-icons/cg";
 import { FaRegComments } from "react-icons/fa";
 import { BiMessageSquareDots, BiTask } from "react-icons/bi";
 import { BsCalendarCheck } from "react-icons/bs";
-import { AiOutlinePlus } from 'react-icons/ai';
+import { AiOutlinePlus, AiOutlineCalendar, AiFillEdit, AiFillDelete } from 'react-icons/ai';
+import { GrAdd } from 'react-icons/gr';
 
 
-export  {AiOutlinePlus, GiHamburgerMenu, MdOutlineAnalytics, MdOutlineIntegrationInstructions, MdOutlineLogout, MdOutlineMoreHoriz, MdOutlineSettings, CgProfile, BiMessageSquareDots, BiTask, BsCalendarCheck, FaRegComments} ;
+export  {AiFillDelete,  AiFillEdit,GrAdd, AiOutlineCalendar, AiOutlinePlus, GiHamburgerMenu, MdOutlineAnalytics, MdOutlineIntegrationInstructions, MdOutlineLogout, MdOutlineMoreHoriz, MdOutlineSettings, CgProfile, BiMessageSquareDots, BiTask, BsCalendarCheck, FaRegComments} ;

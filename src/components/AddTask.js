@@ -1,19 +1,20 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import Box from '@mui/material/Box';
-import Fab from '@mui/material/Fab';
-import { AiOutlinePlus } from 'react-icons/ai';
 import Form from './Form';
+import TaskList from './TaskList';
+import {GrAdd} from '@/utility/Icons';
 
 const TaskForm = () => {
-
   const [tasks, setTasks] = useState(getTasks());
   const [showForm, setShowForm] = useState(false);
 
   function getTasks() {
-    const temp = localStorage.getItem('tasks');
-    const savedTasks = JSON.parse(temp);
-    return savedTasks || [];
+    if (typeof window !== 'undefined') {
+      const temp = localStorage.getItem('tasks');
+      const savedTasks = JSON.parse(temp);
+      return savedTasks || [];
+    }
+    return [];
   }
 
   // Update local storage whenever tasks change
@@ -29,25 +30,45 @@ const TaskForm = () => {
     setShowForm(!showForm);
   }
 
+  const handleDelete = (index) => {
+    const updatedTasks = [...tasks];
+    updatedTasks.splice(index, 1);
+    setTasks(updatedTasks);
+  };
+
+  const handleEdit = (index) => {
+    // Implement the edit logic, e.g., open the form with the selected task for editing
+    console.log('Editing task at index:', index);
+  };
+
+  const handleToggle = (index) => {
+    const updatedTasks = tasks.map((task, i) =>
+    i === index ? { ...task, isCompleted: !task.isCompleted } : task
+  );
+  setTasks(updatedTasks);
+  }
+
   return (
     <div className='lg:ml-60'>
-    <Box sx={{ '& > :not(style)': { m: 1 } }}>
-      {showForm ? <Form onAddTask={handleAddTask} isOpen={showForm} onClose={handleModal} />: <></>}
-
-      <div>
-        <h2>Submitted Tasks:</h2>
-        <ul>
-          {tasks.map((task, index) => (
-            <li key={index}>
-              <strong>{task.title}</strong>: {task.description} (Due: {task.dueDate || 'Not specified'}, Category: {task.category || 'No choice'})
-            </li>
-          ))}
-        </ul>
+      {showForm ? 
+        <Form onAddTask={handleAddTask} isOpen={showForm} onClose={handleModal} />
+        : 
+        <></>
+      }
+      <TaskList 
+        tasks={tasks} 
+        onDelete={handleDelete} 
+        onEdit={handleEdit} 
+        onToggleComplete={handleToggle}
+      />
+      <div className="fixed bottom-10 left-1/2 transform -translate-x-1/2 text-center">
+        <button 
+          className="px-6 flex items-center py-3 rounded-full bg-slate-900 text-white hover:bg-slate-600 focus:outline-none focus:ring focus:border-slate-300"
+          onClick={() => setShowForm(!showForm)}
+        >
+          Add Task
+        </button>
       </div>
-      <Fab color="secondary" aria-label="add" className='ml-full' onClick={(e) => setShowForm(!showForm)}>
-        <AiOutlinePlus />
-      </Fab>
-    </Box>
     </div>
   );
 };
