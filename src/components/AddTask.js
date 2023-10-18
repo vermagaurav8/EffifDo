@@ -2,9 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import Form from './Form';
 import TaskList from './TaskList';
-import {GrAdd} from '@/utility/Icons';
 
-const TaskForm = () => {
+const AddTask = () => {
   const [tasks, setTasks] = useState(getTasks());
   const [showForm, setShowForm] = useState(false);
 
@@ -42,10 +41,12 @@ const TaskForm = () => {
   };
 
   const handleToggle = (index) => {
-    const updatedTasks = tasks.map((task, i) =>
-    i === index ? { ...task, isCompleted: !task.isCompleted } : task
-  );
-  setTasks(updatedTasks);
+    const updatedTasks = [...tasks];
+    updatedTasks[index] = {
+      ...updatedTasks[index],
+      isCompleted: !updatedTasks[index].isCompleted,
+    };
+    setTasks(updatedTasks);
   }
 
   return (
@@ -73,4 +74,4 @@ const TaskForm = () => {
   );
 };
 
-export default TaskForm;
+export default AddTask;
