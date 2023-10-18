@@ -6,6 +6,8 @@ import TaskList from './TaskList';
 const AddTask = () => {
   const [tasks, setTasks] = useState(getTasks());
   const [showForm, setShowForm] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [editedTask, setEditedTask] = useState(null);
 
   function getTasks() {
     if (typeof window !== 'undefined') {
@@ -22,7 +24,19 @@ const AddTask = () => {
   }, [tasks]);
 
   const handleAddTask = (newTask) => {
-    setTasks([...tasks, newTask]);
+    if (isEdit) {
+      // Editing an existing task
+      const updatedTasks = [...tasks];
+      updatedTasks[editedTask.index] = newTask;
+      setTasks(updatedTasks);
+      setEditedTask(null);
+      setIsEdit(false);
+      setShowForm(!showForm)
+    } else {
+      // Adding a new task
+      setTasks([...tasks, newTask]);
+      setShowForm(!showForm)
+    }
   };
 
   const handleModal = () => {
@@ -36,8 +50,12 @@ const AddTask = () => {
   };
 
   const handleEdit = (index) => {
-    // Implement the edit logic, e.g., open the form with the selected task for editing
-    console.log('Editing task at index:', index);
+    setIsEdit(true);
+    setEditedTask({
+      task: tasks[index],
+      index: index,
+    });
+    setShowForm(true);
   };
 
   const handleToggle = (index) => {
@@ -52,7 +70,12 @@ const AddTask = () => {
   return (
     <div className='lg:ml-60'>
       {showForm ? 
-        <Form onAddTask={handleAddTask} isOpen={showForm} onClose={handleModal} />
+        <Form 
+          onAddTask={handleAddTask} 
+          isOpen={showForm} 
+          onClose={handleModal} 
+          editedTask={editedTask?.task}
+        />
         : 
         <></>
       }
