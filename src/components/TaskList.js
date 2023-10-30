@@ -7,11 +7,13 @@ import doodle from '@/assets/jsconfig.json'
 const TaskList = ({ tasks, onDelete, onEdit, onToggleComplete }) => {
 
   return (
-    <div className="mt-6 ml-5">
+    <div className="mt-4 ml-5 min-h-screen flex flex-col">
       <h2 className="text-2xl font-semibold mb-10 text-slate-950 sm:text-3xl">Tasks</h2>
       {tasks.length === 0 ? (
         <div className="flex flex-col items-center">
-          <Lottie animationData={doodle}  className="mt-4" />
+           
+            <Lottie animationData={doodle} className="w-96 h-96" />
+
           <p className="text-slate-500">No tasks available.</p>
           <p className="text-slate-500">Click <b>Add Task</b> to create task.</p>
         </div>
